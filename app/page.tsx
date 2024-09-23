@@ -1,4 +1,4 @@
-import { createClient } from "@libsql/client";
+import { Client, createClient } from "@libsql/client";
 import { revalidatePath } from "next/cache";
 
 const remoteDb = createClient({
@@ -30,7 +30,7 @@ async function insertMessage(formData: FormData) {
   revalidatePath("/");
 }
 
-async function ClientColumn({ db, title }: { db: any; title: string }) {
+async function ClientColumn({ db, title }: { db: Client; title: string }) {
   const fetchStart = performance.now();
   const data = await db.execute(
     "SELECT * FROM messages ORDER BY id DESC LIMIT 10",
@@ -58,7 +58,7 @@ async function ClientColumn({ db, title }: { db: any; title: string }) {
 
       <h3 className="text-lg font-semibold mb-2">Latest Messages:</h3>
       <ul>
-        {data?.rows?.map((row: any, index: number) => (
+        {data?.rows?.map((row, index) => (
           <li key={index} className="mb-2">
             <pre className="bg-gray-100 p-2 rounded text-xs">
               {JSON.stringify(row, null, 2)}
