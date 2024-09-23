@@ -10,7 +10,7 @@ const embeddedDb = createClient({
   url: "file:./local.db",
   syncUrl: process.env.TURSO_DATABASE_URL!,
   authToken: process.env.TURSO_AUTH_TOKEN!,
-  syncInterval: 1000,
+  syncInterval: 60000,
 });
 
 async function insertMessage(formData: FormData) {
